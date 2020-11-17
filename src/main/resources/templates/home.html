@@ -86,7 +86,7 @@
                                 </div>
                                 <div class="content-main">
                                     <h3 class="title">
-                                        <a target="_blank" rel="external nofollow" th:href="'/news/' + ${vo.get('news').id}">[[${vo.get('news').title}]]</a>
+                                        <a target="_blank" rel="external nofollow" th:href="@{${vo.get('news').link}}">[[${vo.get('news').title}]]</a>
                                     </h3>
                                     <div class="meta">
                                         [[${vo.get('news').link}]]
@@ -98,7 +98,7 @@
                             </div>
                             <div class="user-info">
                                 <div class="user-avatar">
-                                    <a th:href="'/user/' + ${vo.get('user').id}"><img width="32" class="img-circle" th:src="${vo.get('user').headUrl}"></a>
+                                    <a th:href="@{'/user/' + ${vo.get('user').id}}"><img width="32" class="img-circle" th:src="${vo.get('user').headUrl}"></a>
                                 </div>
 
                                 <!--
@@ -113,7 +113,7 @@
                                 -->
                             </div>
 
-                            <div class="subject-name">来自 <a th:href="'/user/' + ${vo.get('user').id}">[[${vo.get('user').name}]]</a></div>
+                            <div class="subject-name">来自 <a th:href="@{'/user/' + ${vo.get('user').id}}">[[${vo.get('user').name}]]</a></div>
                         </div>
 
                         <!--

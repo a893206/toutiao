@@ -26,7 +26,13 @@ public class NewsServiceImpl implements NewsService {
         if (userId != 0) {
             queryWrapper.eq("id", userId);
         }
-        queryWrapper.orderByDesc("id");
+        queryWrapper.orderByDesc("created_date");
         return newsMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public Integer addNews(News news) {
+        newsMapper.insert(news);
+        return news.getId();
     }
 }

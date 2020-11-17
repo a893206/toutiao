@@ -57,7 +57,7 @@ public class HomeController {
     @GetMapping({"/", "/index"})
     public String index(Model model,
                         @RequestParam(value = "pop", defaultValue = "0") int pop) {
-        model.addAttribute("vosList", getNews(0, 1, 11));
+        model.addAttribute("vosList", getNews(0, 1, 10));
         model.addAttribute("pop", pop);
         return "home";
     }

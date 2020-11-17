@@ -18,4 +18,12 @@ public interface NewsService {
      * @return 新闻对象集合
      */
     List<News> getLatestNews(int userId, int pageNum, int pageSize);
+
+    /**
+     * 添加新闻
+     *
+     * @param news 新闻对象
+     * @return 添加结果
+     */
+    Integer addNews(News news);
 }

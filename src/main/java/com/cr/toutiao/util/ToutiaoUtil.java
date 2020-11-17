@@ -12,6 +12,17 @@ import java.util.Map;
  */
 @Slf4j
 public class ToutiaoUtil {
+    public static String[] IMAGE_FILE_EXT = {"png", "bmp", "jpg", "jpeg"};
+
+    public static boolean isFileAllowed(String fileName) {
+        for (String ext : IMAGE_FILE_EXT) {
+            if (ext.equals(fileName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static String getJSONString(int code) {
         JSONObject json = new JSONObject();
         json.put("code", code);

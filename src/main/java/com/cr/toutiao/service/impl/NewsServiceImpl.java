@@ -31,8 +31,20 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Integer addNews(News news) {
+    public int addNews(News news) {
         newsMapper.insert(news);
         return news.getId();
+    }
+
+    @Override
+    public News getById(Integer newsId) {
+        return newsMapper.selectById(newsId);
+    }
+
+    @Override
+    public void updateCommentCount(Integer newsId, int count) {
+        News news = newsMapper.selectById(newsId);
+        news.setCommentCount(count);
+        newsMapper.updateById(news);
     }
 }

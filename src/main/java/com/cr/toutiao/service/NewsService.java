@@ -25,5 +25,20 @@ public interface NewsService {
      * @param news 新闻对象
      * @return 添加结果
      */
-    Integer addNews(News news);
+    int addNews(News news);
+
+    /**
+     * 根据新闻id查询新闻
+     *
+     * @param newsId 新闻id
+     * @return 新闻对象
+     */
+    News getById(Integer newsId);
+
+    /**
+     * 更新评论数量
+     * @param newsId 新闻id
+     * @param count 评论数量
+     */
+    void updateCommentCount(Integer newsId, int count);
 }

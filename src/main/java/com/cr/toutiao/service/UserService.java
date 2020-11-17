@@ -2,6 +2,8 @@ package com.cr.toutiao.service;
 
 import com.cr.toutiao.entity.User;
 
+import java.util.Map;
+
 /**
  * @author cr
  * @date 2020-11-16 23:40
@@ -14,4 +16,13 @@ public interface UserService {
      * @return 用户对象
      */
     User getUser(Integer userId);
+
+    /**
+     * 用户注册
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 结果
+     */
+    Map<String, Object> register(String username, String password);
 }

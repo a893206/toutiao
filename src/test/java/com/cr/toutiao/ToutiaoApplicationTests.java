@@ -58,7 +58,5 @@ class ToutiaoApplicationTests {
         }
 
         Assert.assertEquals("newpassword", userMapper.selectById(1).getPassword());
-        userMapper.deleteById(1);
-        Assert.assertNull(userMapper.selectById(1));
     }
 }

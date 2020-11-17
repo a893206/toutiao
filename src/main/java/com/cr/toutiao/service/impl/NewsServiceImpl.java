@@ -24,7 +24,7 @@ public class NewsServiceImpl implements NewsService {
         PageHelper.startPage(pageNum, pageSize);
         QueryWrapper<News> queryWrapper = new QueryWrapper<>();
         if (userId != 0) {
-            queryWrapper.eq("id", userId);
+            queryWrapper.eq("user_id", userId);
         }
         queryWrapper.orderByDesc("created_date");
         return newsMapper.selectList(queryWrapper);

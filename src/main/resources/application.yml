@@ -5,3 +5,7 @@ spring:
     password: 1230
   thymeleaf:
     cache: false
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto

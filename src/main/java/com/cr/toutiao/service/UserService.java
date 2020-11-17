@@ -22,7 +22,23 @@ public interface UserService {
      *
      * @param username 用户名
      * @param password 密码
-     * @return 结果
+     * @return 注册结果
      */
     Map<String, Object> register(String username, String password);
+
+    /**
+     * 用户登录
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 登录结果
+     */
+    Map<String, Object> login(String username, String password);
+
+    /**
+     * 用户注销
+     *
+     * @param ticket ticket
+     */
+    void logout(String ticket);
 }

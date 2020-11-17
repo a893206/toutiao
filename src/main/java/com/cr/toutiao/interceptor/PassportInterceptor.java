@@ -1,0 +1,69 @@
+package com.cr.toutiao.interceptor;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.cr.toutiao.entity.HostHolder;
+import com.cr.toutiao.entity.LoginTicket;
+import com.cr.toutiao.entity.User;
+import com.cr.toutiao.mapper.LoginTicketMapper;
+import com.cr.toutiao.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+
+/**
+ * @author cr
+ * @date 2020-11-17 13:00
+ */
+@Component
+public class PassportInterceptor implements HandlerInterceptor {
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private HostHolder hostHolder;
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String ticket = null;
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("ticket".equals(cookie.getName())) {
+                    ticket = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        if (ticket != null) {
+            LoginTicket loginTicket = loginTicketMapper.selectOne(new QueryWrapper<LoginTicket>().eq("ticket", ticket));
+            if (loginTicket == null || loginTicket.getExpired().before(new Date()) || loginTicket.getStatus() != 0) {
+                return true;
+            }
+
+            User user = userMapper.selectById(loginTicket.getUserId());
+            hostHolder.setUser(user);
+        }
+        return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        if (modelAndView != null && hostHolder.getUser() != null) {
+            modelAndView.addObject("user", hostHolder.getUser());
+        }
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        hostHolder.clear();
+    }
+}

@@ -132,10 +132,11 @@
 <footer th:replace="footer"></footer>
 
 <th:block th:if="${pop}">
-    <script>
-        window.loginpop = [[${pop}]];
-    </script>
+    <th:block th:unless="${user}">
+        <script>
+            window.loginpop = [[${pop}]];
+        </script>
+    </th:block>
 </th:block>
-
 </body>
 </html>

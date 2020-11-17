@@ -50,7 +50,7 @@ class ToutiaoApplicationTests {
             userMapper.insert(user);
 
             News news = new News();
-            news.setCommentCount(i);
+            news.setCommentCount(3);
             Date date = new Date();
             date.setTime(date.getTime() + 1000 * 3600 * 5 * i);
             news.setCreatedDate(date);
@@ -58,7 +58,7 @@ class ToutiaoApplicationTests {
             news.setLikeCount(i + 1);
             news.setUserId(i + 1);
             news.setTitle(String.format("TITLE{%d}", i + 1));
-            news.setLink(String.format("/news/%d", i + 1));
+            news.setLink(String.format("http://www.nowcoder.com/%d.html", i + 1));
             newsMapper.insert(news);
 
             user.setPassword("newpassword");

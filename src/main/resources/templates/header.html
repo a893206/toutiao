@@ -22,7 +22,11 @@
     <script type="text/javascript" src="/scripts/main/component/upload.js"></script>
     <script type="text/javascript" src="/scripts/main/component/popupUpload.js"></script>
     <script type="text/javascript" src="/scripts/main/site/home.js"></script>
-
+    <th:block th:if="${pop}">
+        <th:block th:unless="${user}">
+            <script>window.loginpop = [[${pop}]];</script>
+        </th:block>
+    </th:block>
 </head>
 
 <header class="navbar navbar-default navbar-static-top bs-docs-nav" id="top" role="banner" th:fragment="header">

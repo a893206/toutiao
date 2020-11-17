@@ -14,7 +14,7 @@
                 </button>
             </div>
 
-            <div class="content" data-url="http://nowcoder.com/posts/5l3hjr">
+            <div class="content">
                 <div class="content-img">
                     <img class="content-img" th:src="${news.image}" alt="">
                 </div>
@@ -25,8 +25,8 @@
                     <div class="meta">
                         [[${news.link}]]
                         <span>
-                                  <i class="fa icon-comment"></i> [[${news.commentCount}]]
-                              </span>
+                          <i class="fa icon-comment"></i> [[${news.commentCount}]]
+                      </span>
                     </div>
                 </div>
             </div>
@@ -146,12 +146,5 @@
 
 <footer th:replace="footer"></footer>
 
-<th:block th:if="${pop}">
-    <th:block th:unless="${user}">
-        <script>
-            window.loginpop = [[${pop}]];
-        </script>
-    </th:block>
-</th:block>
 </body>
 </html>

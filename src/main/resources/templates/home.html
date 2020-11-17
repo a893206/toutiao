@@ -80,13 +80,13 @@
                                 <button class="click-dislike down" aria-pressed="true" title="反对"><i class="vote-arrow"></i>
                                 </button>
                             </div>
-                            <div class="content" data-url="/news/$!{news.id}">
+                            <div class="content">
                                 <div>
                                     <img class="content-img" th:src="${vo.get('news').image}" alt="">
                                 </div>
                                 <div class="content-main">
                                     <h3 class="title">
-                                        <a target="_blank" rel="external nofollow" th:href="@{${vo.get('news').link}}">[[${vo.get('news').title}]]</a>
+                                        <a target="_blank" rel="external nofollow" th:href="@{'/news/' + ${vo.get('news').id}}">[[${vo.get('news').title}]]</a>
                                     </h3>
                                     <div class="meta">
                                         [[${vo.get('news').link}]]
@@ -131,12 +131,5 @@
 
 <footer th:replace="footer"></footer>
 
-<th:block th:if="${pop}">
-    <th:block th:unless="${user}">
-        <script>
-            window.loginpop = [[${pop}]];
-        </script>
-    </th:block>
-</th:block>
 </body>
 </html>

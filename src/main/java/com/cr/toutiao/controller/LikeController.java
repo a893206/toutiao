@@ -2,6 +2,7 @@ package com.cr.toutiao.controller;
 
 import com.cr.toutiao.entity.EntityType;
 import com.cr.toutiao.entity.HostHolder;
+import com.cr.toutiao.entity.User;
 import com.cr.toutiao.service.LikeService;
 import com.cr.toutiao.service.NewsService;
 import com.cr.toutiao.util.ToutiaoUtil;
@@ -29,7 +30,11 @@ public class LikeController {
 
     @PostMapping("/like")
     public String like(@Param("newId") int newsId) {
-        long likeCount = likeService.like(hostHolder.getUser().getId(), EntityType.ENTITY_NEWS, newsId);
+        User user = hostHolder.getUser();
+        if (user == null) {
+            return ToutiaoUtil.getJSONString(1, "用户未登录");
+        }
+        long likeCount = likeService.like(user.getId(), EntityType.ENTITY_NEWS, newsId);
         //更新点赞数
         newsService.updateLikeCount(newsId, (int) likeCount);
         return ToutiaoUtil.getJSONString(0, String.valueOf(likeCount));
@@ -37,7 +42,11 @@ public class LikeController {
 
     @PostMapping("/dislike")
     public String dislike(@Param("newId") int newsId) {
-        long likeCount = likeService.disLike(hostHolder.getUser().getId(), EntityType.ENTITY_NEWS, newsId);
+        User user = hostHolder.getUser();
+        if (user == null) {
+            return ToutiaoUtil.getJSONString(1, "用户未登录");
+        }
+        long likeCount = likeService.disLike(user.getId(), EntityType.ENTITY_NEWS, newsId);
         //更新点赞数
         newsService.updateLikeCount(newsId, (int) likeCount);
         return ToutiaoUtil.getJSONString(0, String.valueOf(likeCount));

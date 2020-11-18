@@ -60,10 +60,10 @@
         var that = this;
         var oEl = $(oEvent.currentTarget);
         var sId = $.trim(oEl.attr('data-id'));
-        // 已经操作过 || 不存在Id || 正在提交 ，则忽略
-        // if (oEl.hasClass('pressed') || !sId || that.actioning) {
-        //     return;
-        // }
+        // 不存在Id || 正在提交 ，则忽略
+        if (!sId || that.actioning) {
+            return;
+        }
         that.actioning = true;
         ActionUtil.like({
             newsId: sId,
@@ -76,7 +76,11 @@
                 }
                 oEl.parent().find('.click-dislike').removeClass('pressed');
             },
-            error: function () {
+            error: function (res) {
+                if (res.code === 1 && res.msg === '用户未登录') {
+                    fClickLogin();
+                    return;
+                }
                 alert('出现错误，请重试');
             },
             always: function () {
@@ -89,10 +93,10 @@
         var that = this;
         var oEl = $(oEvent.currentTarget);
         var sId = $.trim(oEl.attr('data-id'));
-        // 已经操作过 || 不存在Id || 正在提交 ，则忽略
-        // if (oEl.hasClass('pressed') || !sId || that.actioning) {
-        //     return;
-        // }
+        // 不存在Id || 正在提交 ，则忽略
+        if (!sId || that.actioning) {
+            return;
+        }
         that.actioning = true;
         ActionUtil.dislike({
             newsId: sId,
@@ -106,7 +110,11 @@
                 oLikeBtn.removeClass('pressed');
                 oLikeBtn.find('span.count').html(oResult.msg);
             },
-            error: function () {
+            error: function (res) {
+                if (res.code === 1 && res.msg === '用户未登录') {
+                    fClickLogin();
+                    return;
+                }
                 alert('出现错误，请重试');
             },
             always: function () {

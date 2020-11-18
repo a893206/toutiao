@@ -28,23 +28,33 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public long like(int userId, int entityType, int entityId) {
-        //在点赞集合里增加
+        //修改当前点赞状态
         String likeKey = RedisKeyUtil.getLikeKey(entityType, entityId);
-        jedisAdapter.sadd(likeKey, String.valueOf(userId));
+        String value = String.valueOf(userId);
+        if (jedisAdapter.sismember(likeKey, value)) {
+            jedisAdapter.srem(likeKey, value);
+        } else {
+            jedisAdapter.sadd(likeKey, value);
+        }
         //从点踩里删除
         String disLikeKey = RedisKeyUtil.getDisLikeKey(entityType, entityId);
-        jedisAdapter.srem(disLikeKey, String.valueOf(userId));
+        jedisAdapter.srem(disLikeKey, value);
         return jedisAdapter.scard(likeKey) - jedisAdapter.scard(disLikeKey);
     }
 
     @Override
     public long disLike(int userId, int entityType, int entityId) {
-        //在点踩集合里增加
+        //修改当前点踩状态
         String disLikeKey = RedisKeyUtil.getDisLikeKey(entityType, entityId);
-        jedisAdapter.sadd(disLikeKey, String.valueOf(userId));
+        String value = String.valueOf(userId);
+        if (jedisAdapter.sismember(disLikeKey, value)) {
+            jedisAdapter.srem(disLikeKey, value);
+        } else {
+            jedisAdapter.sadd(disLikeKey, value);
+        }
         //从点赞里删除
         String likeKey = RedisKeyUtil.getLikeKey(entityType, entityId);
-        jedisAdapter.srem(likeKey, String.valueOf(userId));
+        jedisAdapter.srem(likeKey, value);
         return jedisAdapter.scard(likeKey) - jedisAdapter.scard(disLikeKey);
     }
 }

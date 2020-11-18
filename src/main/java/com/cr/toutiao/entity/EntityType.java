@@ -6,4 +6,5 @@ package com.cr.toutiao.entity;
  */
 public interface EntityType {
     int ENTITY_NEWS = 1;
+    int ENTITY_COMMENT = 2;
 }

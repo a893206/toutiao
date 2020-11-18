@@ -41,7 +41,10 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public int getConversationUnReadCount(int userId, String conversationId) {
         QueryWrapper<Message> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("has_read", 0).eq("to_id", userId).eq("conversation_id", conversationId);
+        queryWrapper.eq("has_read", 0).eq("to_id", userId);
+        if (conversationId != null) {
+            queryWrapper.eq("conversation_id", conversationId);
+        }
         return messageMapper.selectCount(queryWrapper);
     }
 

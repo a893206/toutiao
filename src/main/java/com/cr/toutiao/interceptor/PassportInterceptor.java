@@ -6,6 +6,7 @@ import com.cr.toutiao.entity.LoginTicket;
 import com.cr.toutiao.entity.User;
 import com.cr.toutiao.mapper.LoginTicketMapper;
 import com.cr.toutiao.mapper.UserMapper;
+import com.cr.toutiao.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -30,6 +31,9 @@ public class PassportInterceptor implements HandlerInterceptor {
 
     @Autowired
     private HostHolder hostHolder;
+
+    @Autowired
+    private MessageService messageService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -57,8 +61,10 @@ public class PassportInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        if (modelAndView != null && hostHolder.getUser() != null) {
-            modelAndView.addObject("user", hostHolder.getUser());
+        User user = hostHolder.getUser();
+        if (modelAndView != null && user != null) {
+            modelAndView.addObject("user", user);
+            modelAndView.addObject("unreadCount", messageService.getConversationUnReadCount(user.getId(), null));
         }
     }
 

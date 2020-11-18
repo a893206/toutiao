@@ -18,9 +18,7 @@
                             <p class="letter-time">[[${#dates.format(vo.get('message').createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</p>
                             <a href="javascript:void(0);" id="del-link" name="4009580">删除</a>
                         </div>
-                        <p class="chat-content">
-                            [[${vo.get('message').content}]]
-                        </p>
+                        <p class="chat-content" th:utext="${vo.get('message').content}"></p>
                     </div>
                 </div>
             </li>

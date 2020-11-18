@@ -1,8 +1,7 @@
 package com.cr.toutiao.service;
 
 import com.cr.toutiao.entity.Message;
-
-import java.util.List;
+import com.github.pagehelper.PageInfo;
 
 /**
  * @author cr
@@ -23,9 +22,9 @@ public interface MessageService {
      * @param userId   本地用户id
      * @param pageNum  页码
      * @param pageSize 每页显示数量
-     * @return 消息对象集合
+     * @return 消息分页对象集合
      */
-    List<Message> getConversationList(int userId, int pageNum, int pageSize);
+    PageInfo<Message> getConversationList(int userId, int pageNum, int pageSize);
 
     /**
      * 根据会话id获取站内信详情
@@ -33,9 +32,9 @@ public interface MessageService {
      * @param conversationId 会话id
      * @param pageNum        页码
      * @param pageSize       每页显示数量
-     * @return 消息对象集合
+     * @return 消息分页对象集合
      */
-    List<Message> getConversationDetail(String conversationId, int pageNum, int pageSize);
+    PageInfo<Message> getConversationDetail(String conversationId, int pageNum, int pageSize);
 
     /**
      * 获取用户未读消息数量

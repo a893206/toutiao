@@ -5,10 +5,9 @@ import com.cr.toutiao.entity.Message;
 import com.cr.toutiao.mapper.MessageMapper;
 import com.cr.toutiao.service.MessageService;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author cr
@@ -25,18 +24,18 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> getConversationList(int userId, int pageNum, int pageSize) {
+    public PageInfo<Message> getConversationList(int userId, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return messageMapper.getConversationList(userId);
+        return new PageInfo<>(messageMapper.getConversationList(userId), 5);
     }
 
     @Override
-    public List<Message> getConversationDetail(String conversationId, int pageNum, int pageSize) {
+    public PageInfo<Message> getConversationDetail(String conversationId, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         QueryWrapper<Message> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("conversation_id", conversationId);
         queryWrapper.orderByDesc("id");
-        return messageMapper.selectList(queryWrapper);
+        return new PageInfo<>(messageMapper.selectList(queryWrapper), 5);
     }
 
     @Override

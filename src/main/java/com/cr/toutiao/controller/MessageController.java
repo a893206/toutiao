@@ -7,6 +7,7 @@ import com.cr.toutiao.entity.ViewObject;
 import com.cr.toutiao.service.MessageService;
 import com.cr.toutiao.service.UserService;
 import com.cr.toutiao.util.ToutiaoUtil;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,11 +35,14 @@ public class MessageController {
     private UserService userService;
 
     @GetMapping("/msg/list")
-    public String conversationDetail(Model model) {
+    public String conversationDetail(Model model,
+                                     @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                     @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         try {
             int localUserId = hostHolder.getUser().getId();
             List<ViewObject> vos = new ArrayList<>();
-            List<Message> conversationList = messageService.getConversationList(localUserId, 1, 10);
+            PageInfo<Message> pageInfo = messageService.getConversationList(localUserId, pageNum, pageSize);
+            List<Message> conversationList = pageInfo.getList();
             for (Message msg : conversationList) {
                 ViewObject vo = new ViewObject();
                 vo.set("conversation", msg);
@@ -49,6 +53,7 @@ public class MessageController {
                 vos.add(vo);
             }
             model.addAttribute("vos", vos);
+            model.addAttribute("pageInfo", pageInfo);
             return "letter";
         } catch (Exception e) {
             log.error("获取站内信列表失败" + e.getMessage());
@@ -57,10 +62,13 @@ public class MessageController {
     }
 
     @GetMapping("/msg/detail/{conversationId}")
-    public String conversationDetail(Model model, @PathVariable("conversationId") String conversationId) {
+    public String conversationDetail(Model model, @PathVariable("conversationId") String conversationId,
+                                     @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                     @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         try {
             List<ViewObject> vos = new ArrayList<>();
-            List<Message> conversationList = messageService.getConversationDetail(conversationId, 1, 10);
+            PageInfo<Message> pageInfo = messageService.getConversationDetail(conversationId, pageNum, pageSize);
+            List<Message> conversationList = pageInfo.getList();
             for (Message msg : conversationList) {
                 ViewObject vo = new ViewObject();
                 vo.set("message", msg);
@@ -72,6 +80,7 @@ public class MessageController {
                 vos.add(vo);
             }
             model.addAttribute("vos", vos);
+            model.addAttribute("pageInfo", pageInfo);
 
             //已读消息
             int localUserId = hostHolder.getUser().getId();

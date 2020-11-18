@@ -20,7 +20,7 @@ public class LoginRequiredInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (hostHolder.getUser() == null) {
-            response.sendRedirect("/?pop=1");
+            response.sendRedirect("?pop=1");
             return false;
         }
         return true;

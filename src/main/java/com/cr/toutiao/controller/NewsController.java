@@ -6,6 +6,7 @@ import com.cr.toutiao.service.NewsService;
 import com.cr.toutiao.service.QiniuService;
 import com.cr.toutiao.service.UserService;
 import com.cr.toutiao.util.ToutiaoUtil;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -72,11 +73,14 @@ public class NewsController {
     }
 
     @GetMapping("/news/{newsId}")
-    public String newsDetail(@PathVariable("newsId") int newsId, Model model) {
+    public String newsDetail(@PathVariable("newsId") int newsId, Model model,
+                             @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                             @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
         News news = newsService.getById(newsId);
         if (news != null) {
             //评论
-            List<Comment> commentList = commentService.getCommentsByEntity(newsId, EntityType.ENTITY_NEWS);
+            PageInfo<Comment> pageInfo = commentService.getCommentsByEntity(newsId, EntityType.ENTITY_NEWS, pageNum, pageSize);
+            List<Comment> commentList = pageInfo.getList();
             List<ViewObject> vos = new ArrayList<>();
             for (Comment comment : commentList) {
                 ViewObject vo = new ViewObject();
@@ -85,6 +89,7 @@ public class NewsController {
                 vos.add(vo);
             }
             model.addAttribute("vos", vos);
+            model.addAttribute("pageInfo", pageInfo);
         }
         model.addAttribute("news", news);
         model.addAttribute("owner", userService.getUser(news.getUserId()));

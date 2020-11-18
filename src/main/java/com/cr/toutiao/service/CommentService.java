@@ -1,8 +1,7 @@
 package com.cr.toutiao.service;
 
 import com.cr.toutiao.entity.Comment;
-
-import java.util.List;
+import com.github.pagehelper.PageInfo;
 
 /**
  * @author cr
@@ -22,9 +21,11 @@ public interface CommentService {
      *
      * @param entityId   实体类型id
      * @param entityType 实体类型
-     * @return 评论对象集合
+     * @param pageNum    页码
+     * @param pageSize   每页显示数量
+     * @return 评论分页对象集合
      */
-    List<Comment> getCommentsByEntity(int entityId, int entityType);
+    PageInfo<Comment> getCommentsByEntity(int entityId, int entityType, int pageNum, int pageSize);
 
     /**
      * 获取评论数量

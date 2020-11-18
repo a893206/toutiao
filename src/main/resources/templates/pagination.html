@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<nav aria-label="Page navigation" style="text-align: center" th:if="${pageInfo.pages ne 0}" th:fragment="pagination">
+    <ul class="pagination">
+        <li>
+            <a th:href="@{'?pageNum=1'}" aria-label="Previous">
+                <span aria-hidden="true">首页</span>
+            </a>
+        </li>
+        <li th:classappend="${pageInfo.isFirstPage} ? 'disabled' : '' ">
+            <a th:href="@{'?pageNum=' + ${pageInfo.prePage}}" aria-label="Previous">
+                <span aria-hidden="true">上一页</span>
+            </a>
+        </li>
+        <li th:each="pageNum : ${pageInfo.navigatepageNums}" th:classappend="${pageInfo.pageNum eq pageNum} ? 'active' : ''">
+            <a th:href="@{'?pageNum=' + ${pageNum}}">[[${pageNum}]]</a>
+        </li>
+        <li th:classappend="${pageInfo.isLastPage} ? 'disabled' : '' ">
+            <a th:href="@{'?pageNum=' + ${pageInfo.nextPage}}" aria-label="Next">
+                <span aria-hidden="true">下一页</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{'?pageNum=' + ${pageInfo.pages}}" aria-label="Previous">
+                <span aria-hidden="true">尾页</span>
+            </a>
+        </li>
+    </ul>
+</nav>

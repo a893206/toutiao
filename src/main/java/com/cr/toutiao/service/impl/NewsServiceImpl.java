@@ -5,10 +5,9 @@ import com.cr.toutiao.entity.News;
 import com.cr.toutiao.mapper.NewsMapper;
 import com.cr.toutiao.service.NewsService;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author cr
@@ -20,14 +19,14 @@ public class NewsServiceImpl implements NewsService {
     private NewsMapper newsMapper;
 
     @Override
-    public List<News> getLatestNews(int userId, int pageNum, int pageSize) {
+    public PageInfo<News> getLatestNews(int userId, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         QueryWrapper<News> queryWrapper = new QueryWrapper<>();
         if (userId != 0) {
             queryWrapper.eq("user_id", userId);
         }
-        queryWrapper.orderByDesc("created_date");
-        return newsMapper.selectList(queryWrapper);
+        queryWrapper.orderByDesc("id");
+        return new PageInfo<>(newsMapper.selectList(queryWrapper),5);
     }
 
     @Override

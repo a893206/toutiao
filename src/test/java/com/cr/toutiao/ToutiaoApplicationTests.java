@@ -1,8 +1,7 @@
 package com.cr.toutiao;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cr.toutiao.entity.*;
-import com.cr.toutiao.mapper.LoginTicketMapper;
+import com.cr.toutiao.mapper.MessageMapper;
 import com.cr.toutiao.mapper.NewsMapper;
 import com.cr.toutiao.mapper.UserMapper;
 import com.cr.toutiao.service.CommentService;
@@ -33,41 +32,42 @@ class ToutiaoApplicationTests {
     private UserMapper userMapper;
 
     @Autowired
-    private LoginTicketMapper loginTicketMapper;
+    private CommentService commentService;
 
     @Autowired
-    private CommentService commentService;
+    private MessageMapper messageMapper;
 
     @Test
     void initData() {
         Random random = new Random();
-        for (int i = 0; i < 11; ++i) {
+        int n = 60;
+        for (int i = 1; i <= n; i++) {
             User user = new User();
             user.setHeadUrl(String.format("http://images.nowcoder.com/head/%dt.png", random.nextInt(1000)));
-            user.setName(String.format("USER%d", i + 1));
-            user.setPassword("");
+            user.setName(String.format("USER%d", i));
+            user.setPassword("123456");
             user.setSalt("");
             userMapper.insert(user);
 
             News news = new News();
             news.setCommentCount(3);
             Date date = new Date();
-            date.setTime(date.getTime() + 1000 * 3600 * 5 * i);
+            date.setTime(date.getTime() - 1000 * 3600 * (100 - i));
             news.setCreatedDate(date);
             news.setImage(String.format("http://images.nowcoder.com/head/%dm.png", random.nextInt(1000)));
-            news.setLikeCount(i + 1);
-            news.setUserId(i + 1);
-            news.setTitle(String.format("TITLE{%d}", i + 1));
-            news.setLink(String.format("http://www.nowcoder.com/%d.html", i + 1));
+            news.setLikeCount(i);
+            news.setUserId(i);
+            news.setTitle(String.format("TITLE{%d}", i));
+            news.setLink(String.format("http://www.nowcoder.com/%d.html", i));
             newsMapper.insert(news);
 
             user.setPassword("newpassword");
             userMapper.updateById(user);
 
-            // 给每个资讯插入3个评论
-            for (int j = 1; j <= 3; ++j) {
+            // 给每个资讯插入30条评论
+            for (int j = 1; j <= n / 2; j++) {
                 Comment comment = new Comment();
-                comment.setUserId(i + 1);
+                comment.setUserId(random.nextInt(n) + 1);
                 comment.setCreatedDate(new Date());
                 comment.setStatus(0);
                 comment.setContent("Comment" + j);
@@ -75,24 +75,10 @@ class ToutiaoApplicationTests {
                 comment.setEntityType(EntityType.ENTITY_NEWS);
                 commentService.addComment(comment);
             }
-
-            LoginTicket ticket = new LoginTicket();
-            ticket.setStatus(0);
-            ticket.setUserId(i + 1);
-            ticket.setExpired(date);
-            ticket.setTicket(String.format("TICKET%d", i + 1));
-            loginTicketMapper.insert(ticket);
-
-            ticket.setStatus(2);
-            loginTicketMapper.updateById(ticket);
         }
 
         Assert.assertEquals("newpassword", userMapper.selectById(1).getPassword());
 
-        LoginTicket loginTicket = loginTicketMapper.selectOne(new QueryWrapper<LoginTicket>().eq("ticket", "TICKET1"));
-        Assert.assertEquals((Integer) 1, loginTicket.getUserId());
-        Assert.assertEquals((Integer) 2, loginTicket.getStatus());
-
-        Assert.assertNotNull(commentService.getCommentsByEntity(1, EntityType.ENTITY_NEWS).get(0));
+        Assert.assertNotNull(commentService.getCommentsByEntity(1, EntityType.ENTITY_NEWS, 1, 1).getList().get(0));
     }
 }

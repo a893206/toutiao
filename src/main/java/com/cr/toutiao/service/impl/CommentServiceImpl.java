@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cr.toutiao.entity.Comment;
 import com.cr.toutiao.mapper.CommentMapper;
 import com.cr.toutiao.service.CommentService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author cr
@@ -24,12 +24,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getCommentsByEntity(int entityId, int entityType) {
+    public PageInfo<Comment> getCommentsByEntity(int entityId, int entityType, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("entity_id", entityId).eq("entity_type", entityType);
         queryWrapper.orderByDesc("id");
-        return commentMapper.selectList(queryWrapper);
+        return new PageInfo<>(commentMapper.selectList(queryWrapper), 5);
     }
+
 
     @Override
     public int getCommentCount(int entityId, int entityType) {

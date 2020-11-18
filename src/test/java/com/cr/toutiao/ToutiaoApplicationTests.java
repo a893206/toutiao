@@ -55,7 +55,7 @@ class ToutiaoApplicationTests {
             date.setTime(date.getTime() - 1000 * 3600 * (100 - i));
             news.setCreatedDate(date);
             news.setImage(String.format("http://images.nowcoder.com/head/%dm.png", random.nextInt(1000)));
-            news.setLikeCount(i);
+            news.setLikeCount(0);
             news.setUserId(i);
             news.setTitle(String.format("TITLE{%d}", i));
             news.setLink(String.format("http://www.nowcoder.com/%d.html", i));

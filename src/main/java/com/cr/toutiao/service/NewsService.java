@@ -36,8 +36,17 @@ public interface NewsService {
 
     /**
      * 更新评论数量
+     *
      * @param newsId 新闻id
-     * @param count 评论数量
+     * @param count  评论数量
      */
     void updateCommentCount(Integer newsId, int count);
+
+    /**
+     * 更新点赞数
+     *
+     * @param newsId    新闻id
+     * @param likeCount 点赞数
+     */
+    void updateLikeCount(int newsId, int likeCount);
 }

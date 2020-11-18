@@ -9,12 +9,15 @@
         <div class="post detail">
 
             <div class="votebar">
-                <button class="click-like up" aria-pressed="false" title="赞同"><i class="vote-arrow"></i><span class="count">[[${news.likeCount}]]</span></button>
-                <button class="click-dislike down" aria-pressed="true" title="反对"><i class="vote-arrow"></i>
+                <button class="click-like up" th:classappend="${like} gt 0 ? 'pressed' : ''" th:data-id="${news.id}" title="赞同">
+                    <i class="vote-arrow"></i><span class="count">[[${news.likeCount}]]</span>
+                </button>
+                <button class="click-dislike down" th:classappend="${like} lt 0 ? 'pressed' : ''" th:data-id="${news.id}" title="反对">
+                    <i class="vote-arrow"></i>
                 </button>
             </div>
 
-            <div class="content">
+            <div class="content" th:data-url="${news.link}">
                 <div class="content-img">
                     <img class="content-img" th:src="${news.image}" alt="">
                 </div>

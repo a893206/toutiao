@@ -1,7 +1,7 @@
 package com.cr.toutiao.controller;
 
-import com.cr.toutiao.entity.News;
-import com.cr.toutiao.entity.ViewObject;
+import com.cr.toutiao.entity.*;
+import com.cr.toutiao.service.LikeService;
 import com.cr.toutiao.service.NewsService;
 import com.cr.toutiao.service.UserService;
 import com.github.pagehelper.PageInfo;
@@ -9,7 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +30,12 @@ public class HomeController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LikeService likeService;
+
+    @Autowired
+    private HostHolder hostHolder;
 
     private List<List<ViewObject>> getNews(List<News> newsList) {
         List<List<ViewObject>> vosList = new ArrayList<>();
@@ -51,6 +60,12 @@ public class HomeController {
         ViewObject vo = new ViewObject();
         vo.set("news", news);
         vo.set("user", userService.getUser(news.getUserId()));
+        User user = hostHolder.getUser();
+        if (user != null) {
+            vo.set("like", likeService.getLikeStatus(user.getId(), EntityType.ENTITY_NEWS, news.getId()));
+        } else {
+            vo.set("like", 0);
+        }
         vos.add(vo);
     }
 

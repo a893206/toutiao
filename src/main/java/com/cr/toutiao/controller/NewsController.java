@@ -1,10 +1,7 @@
 package com.cr.toutiao.controller;
 
 import com.cr.toutiao.entity.*;
-import com.cr.toutiao.service.CommentService;
-import com.cr.toutiao.service.NewsService;
-import com.cr.toutiao.service.QiniuService;
-import com.cr.toutiao.service.UserService;
+import com.cr.toutiao.service.*;
 import com.cr.toutiao.util.ToutiaoUtil;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +41,9 @@ public class NewsController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private LikeService likeService;
+
     @PostMapping("/uploadImage")
     @ResponseBody
     public String uploadImage(@RequestParam("file") MultipartFile file) {
@@ -78,6 +78,12 @@ public class NewsController {
                              @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
         News news = newsService.getById(newsId);
         if (news != null) {
+            User user = hostHolder.getUser();
+            if (user != null) {
+                model.addAttribute("like", likeService.getLikeStatus(user.getId(), EntityType.ENTITY_NEWS, news.getId()));
+            } else {
+                model.addAttribute("like", 0);
+            }
             //评论
             PageInfo<Comment> pageInfo = commentService.getCommentsByEntity(newsId, EntityType.ENTITY_NEWS, pageNum, pageSize);
             List<Comment> commentList = pageInfo.getList();

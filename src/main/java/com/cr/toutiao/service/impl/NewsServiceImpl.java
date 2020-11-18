@@ -46,4 +46,11 @@ public class NewsServiceImpl implements NewsService {
         news.setCommentCount(count);
         newsMapper.updateById(news);
     }
+
+    @Override
+    public void updateLikeCount(int newsId, int likeCount) {
+        News news = newsMapper.selectById(newsId);
+        news.setLikeCount(likeCount);
+        newsMapper.updateById(news);
+    }
 }

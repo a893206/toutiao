@@ -17,9 +17,9 @@ public interface MessageService {
     int addMessage(Message msg);
 
     /**
-     * 获取站内信列表
+     * 获取用户站内信列表
      *
-     * @param userId   本地用户id
+     * @param userId   用户id
      * @param pageNum  页码
      * @param pageSize 每页显示数量
      * @return 消息分页对象集合

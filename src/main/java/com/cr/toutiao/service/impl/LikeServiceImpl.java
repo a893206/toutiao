@@ -68,11 +68,21 @@ public class LikeServiceImpl implements LikeService {
         //修改当前点踩状态
         String disLikeKey = RedisKeyUtil.getDisLikeKey(entityType, entityId);
         String value = String.valueOf(userId);
+
+        News news = newsService.getById(entityId);
+        EventModel eventModel = new EventModel(EventType.LIKE)
+                .setActorId(userId)
+                .setEntityType(entityType).setEntityId(entityId)
+                .setEntityOwnerId(news.getUserId());
         if (jedisAdapter.sismember(disLikeKey, value)) {
             jedisAdapter.srem(disLikeKey, value);
+            eventModel.setExt("msg", "取消点踩了你的资讯");
         } else {
             jedisAdapter.sadd(disLikeKey, value);
+            eventModel.setExt("msg", "点踩了你的资讯");
         }
+        eventProducer.fireEvent(eventModel);
+
         //从点赞里删除
         String likeKey = RedisKeyUtil.getLikeKey(entityType, entityId);
         jedisAdapter.srem(likeKey, value);

@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
 
         eventProducer.fireEvent(new EventModel(EventType.LOGIN)
                 .setActorId(user.getId())
-                .setExt("username", username).setExt("email", "931009686@qq.com"));
+                .setExt("email", username));
 
         return map;
     }

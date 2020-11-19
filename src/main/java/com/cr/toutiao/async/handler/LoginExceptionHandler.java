@@ -5,12 +5,11 @@ import com.cr.toutiao.async.EventModel;
 import com.cr.toutiao.async.EventType;
 import com.cr.toutiao.entity.Message;
 import com.cr.toutiao.service.MessageService;
+import com.cr.toutiao.util.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author cr
@@ -19,7 +18,10 @@ import java.util.List;
 @Component
 public class LoginExceptionHandler implements EventHandler {
     @Autowired
-    MessageService messageService;
+    private MessageService messageService;
+
+    @Autowired
+    private MailSender mailSender;
 
     @Override
     public void doHandle(EventModel model) {
@@ -32,6 +34,7 @@ public class LoginExceptionHandler implements EventHandler {
         message.setConversationId(String.format("%d_%d", 1, model.getActorId()));
 
         messageService.addMessage(message);
+        mailSender.sendWithHTMLTemplate(model.getExt("email"), "登陆异常", "mails/welcome.html", null);
     }
 
     @Override

@@ -70,3 +70,21 @@ CREATE TABLE `message`
 )
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8;
+
+DROP TABLE IF EXISTS `mail`;
+CREATE TABLE mail
+(
+    id       INT AUTO_INCREMENT
+        PRIMARY KEY,
+    host     VARCHAR(64) NOT NULL,
+    username VARCHAR(64) NOT NULL,
+    password VARCHAR(64) NULL,
+    port     INT         NOT NULL,
+    CONSTRAINT mail_host_uindex
+        UNIQUE (host),
+    CONSTRAINT mail_username_uindex
+        UNIQUE (username)
+);
+
+INSERT INTO toutiao.mail (id, host, username, password, port)
+VALUES (1, 'smtp.qq.com', '931009686@qq.com', 'yedmjqcrbfmgbdcg', 465);

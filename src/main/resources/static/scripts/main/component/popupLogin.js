@@ -158,11 +158,10 @@
         var that = this;
         var oData = that.val();
         var bRight = true;
-        /*
         if (!Util.isEmail(oData.email)) {
             that.iptError(that.emailIpt, '请填写正确的邮箱');
             bRight = false;
-        }*/
+        }
         if (!oData.pwd) {
             that.iptError(that.pwdIpt, '密码不能为空');
             bRight = false;

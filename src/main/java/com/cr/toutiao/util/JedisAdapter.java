@@ -18,6 +18,10 @@ import java.util.List;
 public class JedisAdapter implements InitializingBean {
     private JedisPool pool = null;
 
+    public Jedis getJedis() {
+        return pool.getResource();
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         pool = new JedisPool("localhost", 6379);

@@ -46,7 +46,6 @@ public class LikeHandler implements EventHandler {
         message.setHasRead(0);
         message.setConversationId(String.format("%d_%d", 1, model.getEntityOwnerId()));
 
-        System.out.println("message = " + message);
         messageService.addMessage(message);
     }
 

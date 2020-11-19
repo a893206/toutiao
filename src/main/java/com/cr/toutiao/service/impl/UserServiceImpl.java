@@ -1,6 +1,9 @@
 package com.cr.toutiao.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.cr.toutiao.async.EventModel;
+import com.cr.toutiao.async.EventProducer;
+import com.cr.toutiao.async.EventType;
 import com.cr.toutiao.entity.LoginTicket;
 import com.cr.toutiao.entity.User;
 import com.cr.toutiao.mapper.LoginTicketMapper;
@@ -24,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private LoginTicketMapper loginTicketMapper;
+
+    @Autowired
+    private EventProducer eventProducer;
 
     @Override
     public User getUser(Integer userId) {
@@ -94,6 +100,11 @@ public class UserServiceImpl implements UserService {
 
         String ticket = addLoginTicket(user.getId());
         map.put("ticket", ticket);
+
+        eventProducer.fireEvent(new EventModel(EventType.LOGIN)
+                .setActorId(user.getId())
+                .setExt("username", username).setExt("email", "931009686@qq.com"));
+
         return map;
     }
 

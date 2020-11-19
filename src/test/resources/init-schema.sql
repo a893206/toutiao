@@ -1,3 +1,9 @@
+DROP DATABASE IF EXISTS toutiao;
+
+CREATE DATABASE toutiao;
+
+USE toutiao;
+
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (
@@ -85,6 +91,3 @@ CREATE TABLE mail
     CONSTRAINT mail_username_uindex
         UNIQUE (username)
 );
-
-INSERT INTO toutiao.mail (id, host, username, password, port)
-VALUES (1, 'smtp.qq.com', '931009686@qq.com', 'yedmjqcrbfmgbdcg', 465);

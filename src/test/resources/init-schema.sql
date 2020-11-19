@@ -1,9 +1,3 @@
-DROP DATABASE IF EXISTS toutiao;
-
-CREATE DATABASE toutiao;
-
-USE toutiao;
-
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (

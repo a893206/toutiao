@@ -27,7 +27,7 @@ SpringBoot、Spring、SpringMVC、MyBatis-Plus、七牛云、Redis、MySQL 8、T
 3. 阅读站内信后清除未读数字。
 4. 赞踩功能逻辑修改（likeCount = 点赞数 - 点踩数），编写前后端对应的代码，首先需要登录，未登录会弹出登录窗提示登录，点击后在添加或删除pressed样式的同时，修改Redis数据并使用Redis实现异步架构操作数据库。
 
-# 初始化数据库
+## 初始化数据库
 
 ```mysql
 DROP DATABASE IF EXISTS toutiao;

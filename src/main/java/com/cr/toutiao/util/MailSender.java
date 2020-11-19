@@ -60,14 +60,14 @@ public class MailSender implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.qq.com");
 
         String username = "931009686@qq.com";
+        Mail mail = mailMapper.selectOne(new QueryWrapper<Mail>().eq("username", username));
+        mailSender.setHost(mail.getHost());
         mailSender.setUsername(username);
-        String password = mailMapper.selectOne(new QueryWrapper<Mail>().eq("username", username)).getPassword();
-        mailSender.setPassword(password);
+        mailSender.setPassword(mail.getPassword());
+        mailSender.setPort(mail.getPort());
 
-        mailSender.setPort(465);
         mailSender.setProtocol("smtps");
         mailSender.setDefaultEncoding("utf8");
         Properties javaMailProperties = new Properties();

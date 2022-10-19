@@ -2,7 +2,7 @@
 
 ## 涉及技术
 
-SpringBoot、Spring、SpringMVC、MyBatis-Plus、七牛云、Redis、MySQL 8、Thymeleaf、Bootstrap
+Spring Boot、Spring、Spring MVC、MyBatis-Plus、七牛云、Redis、MySQL 8、Thymeleaf、Bootstrap
 
 ## 项目实现功能
 

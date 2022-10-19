@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mysql://toutiao.cr0898.xyz:3306/toutiao?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+    username: toutiao
+    password: 1230
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    cache: true
+logging:
+  level:
+    com.cr.toutiao.mapper: info
+application:
+  domain: http://toutiao.cr0898.xyz

@@ -8,6 +8,8 @@ import com.cr.toutiao.service.MessageService;
 import com.cr.toutiao.service.UserService;
 import com.cr.toutiao.util.ToutiaoUtil;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,7 @@ import java.util.List;
  */
 @Slf4j
 @Controller
+@Api(tags = "站内信")
 public class MessageController {
     @Autowired
     private MessageService messageService;
@@ -35,6 +38,7 @@ public class MessageController {
     private UserService userService;
 
     @GetMapping("/msg/list")
+    @ApiOperation("站内信列表")
     public String conversationDetail(Model model,
                                      @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                      @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
@@ -62,6 +66,7 @@ public class MessageController {
     }
 
     @GetMapping("/msg/detail/{conversationId}")
+    @ApiOperation("会话详情")
     public String conversationDetail(Model model, @PathVariable("conversationId") String conversationId,
                                      @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                      @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
@@ -94,6 +99,7 @@ public class MessageController {
 
     @PostMapping("/msg/addMessage")
     @ResponseBody
+    @ApiOperation("发送站内信")
     public String addMessage(@RequestParam("fromId") int fromId,
                              @RequestParam("toId") int toId,
                              @RequestParam("content") String content) {

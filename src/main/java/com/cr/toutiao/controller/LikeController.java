@@ -6,6 +6,8 @@ import com.cr.toutiao.entity.User;
 import com.cr.toutiao.service.LikeService;
 import com.cr.toutiao.service.NewsService;
 import com.cr.toutiao.util.ToutiaoUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
+@Api(tags = "赞踩")
 public class LikeController {
     @Autowired
     private LikeService likeService;
@@ -29,6 +32,7 @@ public class LikeController {
     private NewsService newsService;
 
     @PostMapping("/like")
+    @ApiOperation("点赞")
     public String like(@Param("newId") int newsId) {
         User user = hostHolder.getUser();
         if (user == null) {
@@ -41,6 +45,7 @@ public class LikeController {
     }
 
     @PostMapping("/dislike")
+    @ApiOperation("点踩")
     public String dislike(@Param("newId") int newsId) {
         User user = hostHolder.getUser();
         if (user == null) {

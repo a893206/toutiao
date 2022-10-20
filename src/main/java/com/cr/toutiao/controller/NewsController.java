@@ -4,6 +4,8 @@ import com.cr.toutiao.entity.*;
 import com.cr.toutiao.service.*;
 import com.cr.toutiao.util.ToutiaoUtil;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import java.util.List;
  */
 @Slf4j
 @Controller
+@Api(tags = "资讯")
 public class NewsController {
     @Autowired
     private NewsService newsService;
@@ -46,6 +49,7 @@ public class NewsController {
 
     @PostMapping("/uploadImage")
     @ResponseBody
+    @ApiOperation("上传图片")
     public String uploadImage(@RequestParam("file") MultipartFile file) {
         try {
             String fileUrl = qiniuService.saveImage(file);
@@ -61,6 +65,7 @@ public class NewsController {
 
     @GetMapping("/image")
     @ResponseBody
+    @ApiOperation("查看图片")
     public void getImage(@RequestParam("name") String imageName,
                          HttpServletResponse response) {
         try {
@@ -73,6 +78,7 @@ public class NewsController {
     }
 
     @GetMapping("/news/{newsId}")
+    @ApiOperation("资讯详情")
     public String newsDetail(@PathVariable("newsId") int newsId, Model model,
                              @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                              @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
@@ -105,6 +111,7 @@ public class NewsController {
 
     @PostMapping("/user/addNews")
     @ResponseBody
+    @ApiOperation("添加资讯")
     public String addNews(@RequestParam("image") String image,
                           @RequestParam("title") String title,
                           @RequestParam("link") String link) {
@@ -131,6 +138,7 @@ public class NewsController {
     }
 
     @PostMapping("/addComment")
+    @ApiOperation("添加评论")
     public String addComment(@RequestParam("newsId") int newsId,
                              @RequestParam("content") String content) {
 

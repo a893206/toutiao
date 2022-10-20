@@ -2,6 +2,8 @@ package com.cr.toutiao.controller;
 
 import com.cr.toutiao.service.UserService;
 import com.cr.toutiao.util.ToutiaoUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,12 +21,14 @@ import java.util.Map;
  */
 @Slf4j
 @Controller
+@Api(tags = "注册登录")
 public class LoginController {
     @Autowired
     private UserService userService;
 
     @PostMapping("/reg")
     @ResponseBody
+    @ApiOperation("注册")
     public String reg(@RequestParam("username") String username,
                       @RequestParam("password") String password,
                       @RequestParam(value = "rember", defaultValue = "0") int rememberme,
@@ -50,6 +54,7 @@ public class LoginController {
 
     @PostMapping("/login")
     @ResponseBody
+    @ApiOperation("登录")
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
                         @RequestParam(value = "rember", defaultValue = "0") int rememberme,

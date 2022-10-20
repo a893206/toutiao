@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(ToutiaoUtil.MD5(password + user.getSalt()));
         userMapper.insert(user);
 
-        // 登陆
+        // 登录
         String ticket = addLoginTicket(user.getId());
         map.put("ticket", ticket);
         return map;

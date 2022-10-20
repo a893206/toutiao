@@ -5,6 +5,8 @@ import com.cr.toutiao.service.LikeService;
 import com.cr.toutiao.service.NewsService;
 import com.cr.toutiao.service.UserService;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,7 @@ import java.util.List;
  */
 @Slf4j
 @Controller
+@Api(tags = "首页")
 public class HomeController {
     @Autowired
     private NewsService newsService;
@@ -70,6 +73,7 @@ public class HomeController {
     }
 
     @GetMapping({"/", "/index"})
+    @ApiOperation("头条首页")
     public String index(Model model,
                         @RequestParam(value = "pop", defaultValue = "0") int pop,
                         @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
@@ -82,6 +86,7 @@ public class HomeController {
     }
 
     @GetMapping("/user/{userId}")
+    @ApiOperation("用户首页")
     public String userIndex(Model model, @PathVariable("userId") int userId,
                             @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
@@ -92,6 +97,7 @@ public class HomeController {
     }
 
     @GetMapping("/logout")
+    @ApiOperation("注销")
     public String logout(@CookieValue("ticket") String ticket) {
         userService.logout(ticket);
         return "redirect:/";
